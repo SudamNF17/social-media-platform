@@ -1,16 +1,27 @@
+require("dotenv").config();
+
 const express = require("express");
+const cors = require("cors");
+
+const postRoutes = require("./routes/postRoutes");
+const authRoutes = require("./routes/authRoutes");
 
 const app = express();
-const PORT = 3000;
 
-// Middleware (important)
+app.use(cors());
 app.use(express.json());
 
-// Test route
-app.get("/", (req, res) => {
-    res.send("Server is running 🚀");
+// Routes
+app.use("/api/posts", postRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/uploads", express.static("uploads"));
+
+app.set("view engine", "ejs");
+
+app.get("/home", (req, res) => {
+    res.render("index");
 });
 
-app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
+app.listen(process.env.PORT, () => {
+    console.log(`Server running on port ${process.env.PORT}`);
 });
