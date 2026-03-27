@@ -17,7 +17,20 @@ exports.createPost = (req, res) => {
 
 // READ
 exports.getPosts = (req, res) => {
-    res.json(posts);
+    const page = parseInt(req.query.page) || 1; // current page
+    const limit = 2; // posts per page
+
+    const start = (page - 1) * limit;
+    const end = start + limit;
+
+    const paginatedPosts = posts.slice(start, end);
+
+    res.json({
+        page: page,
+        totalPosts: posts.length,
+        totalPages: Math.ceil(posts.length / limit),
+        data: paginatedPosts
+    });
 };
 
 // UPDATE
