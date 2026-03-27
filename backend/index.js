@@ -15,6 +15,7 @@ app.use(express.json());
 app.use("/api/posts", postRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/uploads", express.static("uploads"));
+app.use(cors());
 
 app.set("view engine", "ejs");
 
